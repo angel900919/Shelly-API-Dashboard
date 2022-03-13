@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
+import './style.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+export default function App() {
+    const [starWarsData, setStarWarsData] = React.useState({})
+    const [count, setCount] = React.useState(0)
+
+
+
+    React.useEffect(
+        () => {
+            async function getData() {
+                const res = await fetch("http://192.168.0.146/emeter/0")
+                const data = await res.json()
+                setStarWarsData(data)
+                //setStarWarsData(data.emeters[0])
+            }
+            getData()
+        }, [count])
+
+    return (
+        <div>
+            <pre>{JSON.stringify(starWarsData, null, 2)} Watts</pre>
+            <h2>The count is {count}</h2>
+            <button onClick={() => setCount(prevCount => prevCount + 1)}> Add</button>
+        </div>
+    )
 }
-
-export default App;
